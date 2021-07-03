@@ -7,7 +7,7 @@ export function Home() {
 
     async function handleOpenChat() {
         if (!user) {
-            return window.alert('Você não está logado!');
+            return await signInWithGoogle();
         }
 
         history.push('/chat');
