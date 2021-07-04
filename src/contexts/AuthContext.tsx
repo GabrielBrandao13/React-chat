@@ -14,13 +14,14 @@ type UserType = {
 type AuthContextProviderValue = {
     user: UserType | undefined;
     signInWithGoogle: () => Promise<void>;
+    logout: () => void;
 }
 
 
 export const AuthContext = createContext({} as AuthContextProviderValue)
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
-    const [user, setUser] = useState<UserType>();
+    const [user, setUser] = useState<UserType | undefined>();
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
@@ -53,7 +54,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
             const { displayName, uid, photoURL } = res.user
 
             if (!displayName || !photoURL) {
-                throw new Error('Missing information from Google Account.');
+                throw new Error('Informações faltantes da conta Google');
             }
 
             setUser({
@@ -65,10 +66,13 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
     }
 
-
+    function logout() {
+        setUser(undefined);
+        auth.signOut();
+    }
 
     return (
-        <AuthContext.Provider value={{ user, signInWithGoogle }}>
+        <AuthContext.Provider value={{ user, signInWithGoogle, logout }}>
             {children}
         </AuthContext.Provider>
     )

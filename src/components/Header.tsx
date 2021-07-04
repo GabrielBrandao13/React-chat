@@ -2,13 +2,14 @@ import styled from 'styled-components';
 import { useAuth } from '../hooks/useAuth';
 
 import loginIcon from '../assets/icons/login.svg';
+import logoutIcon from '../assets/icons/logout.svg';
 
 type HeaderPropsType = {
     className?: string;
 }
 
 function HeaderComponent({ className }: HeaderPropsType) {
-    const { user, signInWithGoogle } = useAuth()
+    const { user, signInWithGoogle, logout } = useAuth()
 
     async function handleLogin() {
         await signInWithGoogle()
@@ -22,11 +23,15 @@ function HeaderComponent({ className }: HeaderPropsType) {
                 {user ? (
                     <img src={user?.pic} alt="Foto de perfil Google" />
                 ) : ''}
-                <button onClick={handleLogin}>
-                    <img src={loginIcon} alt="Icone de login" />
+                <button onClick={handleLogin} className="login">
                     <p>
                         {!user ? 'Fazer login com conta Google' : 'Trocar de conta'}
                     </p>
+                    <img src={loginIcon} alt="Icone de login" />
+                </button>
+                <button onClick={logout} className="logout">
+                    <p>Logout</p>
+                    <img src={logoutIcon} alt="Icone de logout" />
                 </button>
             </div>
 
@@ -77,6 +82,15 @@ export const Header = styled(HeaderComponent)`
                 height: 100%;
                 width: auto;
             }
+
+        }
+
+        button.login{
+            
+        }
+
+        button.logout{
+
         }
     }
     > span{
