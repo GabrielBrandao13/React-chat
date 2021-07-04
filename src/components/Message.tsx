@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import { database } from '../services/firebase';
-
+import { useState } from 'react';
 
 import deleteIcon from '../assets/icons/delete.svg';
-import { useState } from 'react';
+import editIcon from '../assets/icons/edit.svg';
+import saveIcon from '../assets/icons/save.svg';
+
 
 type MessagePropsType = {
     className?: string;
@@ -47,19 +49,19 @@ function MessageComponent({ className, content, pic, userName, id, selfMessage }
 
             {selfMessage && (
                 <>
-                    <button className="delete" onClick={errase}>
-                        <img src={deleteIcon} alt="Icone de deletar" />
+                    <button className="action" onClick={errase}>
+                        <img src={deleteIcon} alt="Ícone de deletar" />
                     </button>
                     {editing ? (
                         <>
-                            <button onClick={edit}>
-                                Salvar
+                            <button onClick={edit} className="action">
+                                <img src={saveIcon} alt="Ícone de salvar" />
                             </button>
                         </>
                     ) : (
                         <>
-                            <button onClick={() => setEditing(!editing)}>
-                                Editar
+                            <button className="action" onClick={() => setEditing(!editing)}>
+                                <img src={editIcon} alt="Ícone de editar" />
                             </button>
                         </>
                     )}
@@ -92,21 +94,28 @@ export const Message = styled(MessageComponent)`
         }
     }
 
-    > p{
+    > p, > textarea{
         flex:1;
+        font-size: 13pt;
+    }
+    > textarea{
+        border-radius: 8px;
+        resize: vertical;
     }
 
-    button.delete{
-        padding: 0;
-        margin: 0;
+    > button.action{
+        height: 30px;
         width: 30px;
-        height:30px;
+        border:none;
+        outline:none;
+        border-radius: 50%;
+        align-self: flex-end;
+        cursor:pointer;
 
         img{
             width: 100%;
             height: auto;
         }
     }
-
 
 `

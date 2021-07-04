@@ -8,6 +8,8 @@ import styled from 'styled-components';
 import { Header } from '../components/Header';
 import { Message } from '../components/Message';
 
+import sendIcon from '../assets/icons/send.svg';
+
 type ChatPropsType = {
     className: string;
 }
@@ -98,9 +100,14 @@ export function ChatComponent({ className }: ChatPropsType) {
                                     )
                                 })}
                             </div>
+                            <div className="bottom">
+                                <textarea value={msg} onChange={e => setMsg(e.target.value)} />
+                                <button type="submit">
+                                    <img src={sendIcon} alt="Ícone de enviar" />
+                                </button>
+                            </div>
 
-                            <textarea value={msg} onChange={e => setMsg(e.target.value)} />
-                            <button type="submit">Enviar</button>
+
                         </form>
 
                     </>
@@ -171,29 +178,53 @@ export const Chat = styled(ChatComponent)`
                 }
             }
 
-            textarea{
+            .bottom{
+                display:flex;
+                flex-flow: row nowrap;
                 width: 100%;
-                border-radius: 8px;
-                resize:none;
-                outline:none;
-                height: 50px;
-                transition: all .2s;
-                font-size: 13pt;
+                align-items: center;
 
-                &:focus{
-                    box-shadow: inset 0px 0px 10px rgba(10, 10, 10, 0.7); 
+                textarea{
+                    flex:1;
+                    border-radius: 8px;
+                    resize:none;
+                    outline:none;
+                    height: 50px;
+                    transition: all .2s;
+                    font-size: 13pt;
+
+                    &:focus{
+                        box-shadow: inset 0px 0px 10px rgba(10, 10, 10, 0.7); 
+                    }
+                }
+
+                button{
+                    border:none;
+                    padding: 5px;
+                    border-radius: 4px;
+                    align-self: flex-end;
+                    font-size: 15pt;
+                    cursor:pointer;
+                    width:60px;
+                    height:60px;
+                    background-color:rgba(0, 0, 0, 0);
+                    border-radius: 50%;
+                    transition: all .2s;
+
+
+                    &:hover{
+                        background-color:rgba(0, 0, 0, .5);
+                    }
+
+                    img{
+                        width:100%;
+                        height:auto;
+                    }
                 }
             }
-
-            button{
-                border:none;
-                padding: 5px;
-                border-radius: 4px;
-                align-self: flex-end;
-                font-size: 15pt;
-                cursor:pointer;
-            }
         }
+
+
 
         .not-loged{
             background-color:#ffffff;
