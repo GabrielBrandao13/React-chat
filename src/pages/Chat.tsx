@@ -93,6 +93,7 @@ export function ChatComponent({ className }: ChatPropsType) {
                                             selfMessage={message.userId === user.id}
                                             pic={message.userPic}
                                             userName={message.userName}
+                                            id={message.id}
                                         />
                                     )
                                 })}
@@ -190,6 +191,7 @@ export const Chat = styled(ChatComponent)`
                 border-radius: 4px;
                 align-self: flex-end;
                 font-size: 15pt;
+                cursor:pointer;
             }
         }
 

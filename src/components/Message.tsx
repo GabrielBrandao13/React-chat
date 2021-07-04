@@ -1,4 +1,8 @@
 import styled from 'styled-components';
+import { database } from '../services/firebase';
+
+
+import deleteIcon from '../assets/icons/delete.svg';
 
 type MessagePropsType = {
     className?: string;
@@ -6,9 +10,15 @@ type MessagePropsType = {
     selfMessage?: boolean;
     pic: string;
     userName: string;
+    id: string;
 }
 
-function MessageComponent({ className, content, pic, userName }: MessagePropsType) {
+function MessageComponent({ className, content, pic, userName, id, selfMessage }: MessagePropsType) {
+
+    async function errase() {
+        await database.ref(`messages/${id}`).remove()
+    }
+
     return (
         <div className={className}>
 
@@ -19,6 +29,11 @@ function MessageComponent({ className, content, pic, userName }: MessagePropsTyp
             <p>
                 {content}
             </p>
+            {selfMessage && (
+                <button className="delete" onClick={errase}>
+                    <img src={deleteIcon} alt="Icone de deletar" />
+                </button>
+            )}
         </div>
     )
 }
@@ -47,6 +62,18 @@ export const Message = styled(MessageComponent)`
 
     > p{
         flex:1;
+    }
+
+    button.delete{
+        padding: 0;
+        margin: 0;
+        width: 30px;
+        height:30px;
+
+        img{
+            width: 100%;
+            height: auto;
+        }
     }
 
 
