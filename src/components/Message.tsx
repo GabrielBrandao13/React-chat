@@ -3,6 +3,7 @@ import { database } from '../services/firebase';
 
 
 import deleteIcon from '../assets/icons/delete.svg';
+import { useState } from 'react';
 
 type MessagePropsType = {
     className?: string;
@@ -18,6 +19,15 @@ function MessageComponent({ className, content, pic, userName, id, selfMessage }
     async function errase() {
         await database.ref(`messages/${id}`).remove()
     }
+    async function edit() {
+        await database.ref(`messages/${id}`).update({
+            content: newContent
+        })
+        setEditing(false)
+    }
+    const [editing, setEditing] = useState(false);
+
+    const [newContent, setNewContent] = useState(content);
 
     return (
         <div className={className}>
@@ -26,13 +36,35 @@ function MessageComponent({ className, content, pic, userName, id, selfMessage }
                 <img src={pic} alt="Foto de perfil do usuário" />
                 <p>{userName}</p>
             </div>
-            <p>
-                {content}
-            </p>
+
+            {editing ? (
+                <textarea value={newContent} onChange={e => setNewContent(e.target.value)}></textarea>
+            ) : (
+                <p>
+                    {content}
+                </p>
+            )}
+
             {selfMessage && (
-                <button className="delete" onClick={errase}>
-                    <img src={deleteIcon} alt="Icone de deletar" />
-                </button>
+                <>
+                    <button className="delete" onClick={errase}>
+                        <img src={deleteIcon} alt="Icone de deletar" />
+                    </button>
+                    {editing ? (
+                        <>
+                            <button onClick={edit}>
+                                Salvar
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <button onClick={() => setEditing(!editing)}>
+                                Editar
+                            </button>
+                        </>
+                    )}
+
+                </>
             )}
         </div>
     )
