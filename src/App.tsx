@@ -3,6 +3,8 @@ import { Chat } from './pages/Chat';
 import { Home } from './pages/Home';
 import { AuthContextProvider } from './contexts/AuthContext';
 
+import './App.css';
+
 function App() {
   return (
     <BrowserRouter>
